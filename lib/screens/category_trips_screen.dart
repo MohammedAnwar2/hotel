@@ -1,3 +1,69 @@
+// import 'package:flutter/material.dart';
+// import '../models/trip.dart';
+// import '../widgets/trip_item.dart';
+
+// class CategoryTripsScreen extends StatefulWidget {
+//   static const screenRoute = '/categroy-trips';
+
+//   final List<Trip> availableTrips;
+
+//   CategoryTripsScreen(this.availableTrips);
+
+//   @override
+//   _CategoryTripsScreenState createState() => _CategoryTripsScreenState();
+// }
+
+// class _CategoryTripsScreenState extends State<CategoryTripsScreen> {
+//   late String categoryTitle;
+//   late List<Trip> displayTrips;
+
+//   @override
+//   void initState() {
+//     //...
+//     super.initState();
+//   }
+
+//   @override
+//   void didChangeDependencies() {
+//     final routeArgument =
+//         ModalRoute.of(context)?.settings.arguments as Map<String, String>;
+//     final categoryId = routeArgument['id'];
+//     categoryTitle = routeArgument['title']!;
+//     displayTrips = widget.availableTrips.where((trip) {
+//       return trip.categories.contains(categoryId);
+//     }).toList();
+//     super.didChangeDependencies();
+//   }
+
+//   void _removeTrip(String tripId) {
+//     setState(() {
+//       displayTrips.removeWhere((trip) => trip.id == tripId);
+//     });
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: Text(categoryTitle),
+//       ),
+//       body: ListView.builder(
+//         itemBuilder: (ctx, index) {
+//           return TripItem(
+//             id: displayTrips[index].id,
+//             title: displayTrips[index].title,
+//             imageUrl: displayTrips[index].imageUrl,
+//             duration: displayTrips[index].duration,
+//             tripType: displayTrips[index].tripType,
+//             season: displayTrips[index].season,
+//             // removeItem: _removeTrip,
+//           );
+//         },
+//         itemCount: displayTrips.length,
+//       ),
+//     );
+//   }
+// }
 import 'package:flutter/material.dart';
 import '../models/trip.dart';
 import '../widgets/trip_item.dart';
@@ -14,8 +80,8 @@ class CategoryTripsScreen extends StatefulWidget {
 }
 
 class _CategoryTripsScreenState extends State<CategoryTripsScreen> {
-  late String categoryTitle;
-  late List<Trip> displayTrips;
+  String? categoryTitle;
+  List<Trip>? displayTrips;
 
   @override
   void initState() {
@@ -26,9 +92,9 @@ class _CategoryTripsScreenState extends State<CategoryTripsScreen> {
   @override
   void didChangeDependencies() {
     final routeArgument =
-    ModalRoute.of(context)?.settings.arguments as Map<String, String>;
+        ModalRoute.of(context)?.settings.arguments as Map<String, String>;
     final categoryId = routeArgument['id'];
-    categoryTitle = routeArgument['title']!;
+    categoryTitle = routeArgument['title'];
     displayTrips = widget.availableTrips.where((trip) {
       return trip.categories.contains(categoryId);
     }).toList();
@@ -37,7 +103,7 @@ class _CategoryTripsScreenState extends State<CategoryTripsScreen> {
 
   void _removeTrip(String tripId) {
     setState(() {
-      displayTrips.removeWhere((trip) => trip.id == tripId);
+      displayTrips?.removeWhere((trip) => trip.id == tripId);
     });
   }
 
@@ -45,21 +111,22 @@ class _CategoryTripsScreenState extends State<CategoryTripsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(categoryTitle),
+        title: Text(categoryTitle!),
       ),
       body: ListView.builder(
         itemBuilder: (ctx, index) {
           return TripItem(
-            id: displayTrips[index].id,
-            title: displayTrips[index].title,
-            imageUrl: displayTrips[index].imageUrl,
-            duration: displayTrips[index].duration,
-            tripType: displayTrips[index].tripType,
-            season: displayTrips[index].season,
-            // removeItem: _removeTrip,
+            id: displayTrips![index].id,
+            title: displayTrips![index].title,
+            imageUrl: displayTrips![index].imageUrl,
+            duration: displayTrips![index].duration,
+            pric: displayTrips![index].pric,
+            location: displayTrips![index].location,
+
+            //   removeItem: _removeTrip,
           );
         },
-        itemCount: displayTrips.length,
+        itemCount: displayTrips?.length,
       ),
     );
   }

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:untitled2/screens/evaluation.dart';
 import '../screens/filters_screen.dart';
 
 class AppDrawer extends StatelessWidget {
-  const AppDrawer({Key ?key}) : super(key: key);
+  const AppDrawer({Key? key}) : super(key: key);
 
-  Widget buildListTile(String title, IconData icon, void Function()? onTapLink) {
+  Widget buildListTile(
+      String title, IconData icon, void Function()? onTapLink) {
     return ListTile(
       leading: Icon(
         icon,
@@ -47,12 +49,21 @@ class AppDrawer extends StatelessWidget {
               Navigator.of(context).pushReplacementNamed('/');
             },
           ),
+          // buildListTile(
+          //   'التصفية',
+          //   Icons.filter_list,
+          //   () {
+          //     Navigator.of(context)
+          //         .pushReplacementNamed(FiltersScreen.screenRoute);
+          //   },
+          // ),
           buildListTile(
-            'التصفية',
-            Icons.filter_list,
+            'تقييم',
+            Icons.event_available_outlined,
             () {
-              Navigator.of(context)
-                  .pushReplacementNamed(FiltersScreen.screenRoute);
+              Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: (context) => EvaluationScreen()));
+              //EvaluationScreen()
             },
           ),
         ],

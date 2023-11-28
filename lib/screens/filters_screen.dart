@@ -14,20 +14,21 @@ class FiltersScreen extends StatefulWidget {
 }
 
 class _FiltersScreenState extends State<FiltersScreen> {
-  var _days = false;
-  var _months = false;
-  var _years = false;
+  var _summer = false;
+  var _winter = false;
+  var _family = false;
 
   @override
   initState() {
-    _days = widget.currentFilters['day']!;
-    _months = widget.currentFilters['month']!;
-    _years = widget.currentFilters['year']!;
+    _summer = widget.currentFilters['summer'] ?? false;
+    // ?? ==> if the value is null it'll take false
+    _winter = widget.currentFilters['winter'] ?? false;
+    _family = widget.currentFilters['family'] ?? false;
     super.initState();
   }
 
-  Widget buildSwitchListTile(
-      String title, String subtitle, var currentValue, void Function(bool)?updateValue) {
+  Widget buildSwitchListTile(String title, String subtitle, var currentValue,
+      void Function(bool)? updateValue) {
     return SwitchListTile(
       title: Text(title),
       subtitle: Text(subtitle),
@@ -40,55 +41,55 @@ class _FiltersScreenState extends State<FiltersScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('التصفية'),
+        title: const Text('الفلترة'),
         actions: [
           IconButton(
-            icon: Icon(Icons.save),
+            icon: const Icon(Icons.save),
             onPressed: () {
               final selectedFilters = {
-                'day': _days,
-                'month': _months,
-                'year': _years,
+                'summer': _summer,
+                'winter': _winter,
+                'family': _family,
               };
               widget.saveFilters(selectedFilters);
             },
           )
         ],
       ),
-      drawer: AppDrawer(),
+      drawer: const AppDrawer(),
       body: Column(
         children: [
-          SizedBox(height: 50),
+          const SizedBox(height: 50),
           Expanded(
             child: ListView(
               children: [
                 buildSwitchListTile(
-                  'الإيجار باليومية',
-                  ' إظهار البيوت ذات ايجار بالأيام فقط ',
-                  _days,
+                  'الرحلات الصيفية فقط',
+                  'إظهار الرحلات في فصل الصيف فقط',
+                  _summer,
                   (newValue) {
                     setState(() {
-                      _days = newValue;
+                      _summer = newValue;
                     });
                   },
                 ),
                 buildSwitchListTile(
-                  'الايجار بالأشهر ',
-                  'إظهار البيوت ذات إيجار بالشهر فقط',
-                  _months,
+                  'الرحلات الشتوية فقط',
+                  'إظهار الرحلات في فصل الشتاء فقط',
+                  _winter,
                   (newValue) {
                     setState(() {
-                      _months = newValue;
+                      _winter = newValue;
                     });
                   },
                 ),
                 buildSwitchListTile(
-                  'إيجار بالسنة',
-                  'إظهار البيوت ذات الايجار بالسنة فقط',
-                  _years,
+                  'للعائلات',
+                  'إظهار الرحلات التي للعائلات فقط',
+                  _family,
                   (newValue) {
                     setState(() {
-                      _years = newValue;
+                      _family = newValue;
                     });
                   },
                 ),
